@@ -1,0 +1,110 @@
+<% layout("/layouts/boilerplate") %>
+
+<a href="/campgrounds/<%= campground._id %>">Back</a>
+
+<div class="row">
+    <h1 class="text-center">Edit <%= campground.title %></h1>
+    <div class="col-md-6 offset-md-3">
+        <form
+            action="/campgrounds/<%= campground._id %>?_method=put"
+            method="post"
+            novalidate
+            class="validated-form"
+            enctype="multipart/form-data"
+        >
+            <div class="mb-3">
+                <label class="form-label" for="title">Title:</label>
+                <input
+                    class="form-control"
+                    type="text"
+                    name="campground[title]"
+                    id="title"
+                    placeholder="Title..."
+                    value="<%= campground.title %>"
+                    required
+                />
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+            <div class="row">
+                <div class="mb-3 col-8">
+                    <label class="form-label" for="location">Location:</label>
+                    <input
+                        class="form-control"
+                        type="text"
+                        name="campground[location]"
+                        id="location"
+                        placeholder="Location..."
+                        required
+                        value="<%= campground.location %>"
+                        required
+                    />
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+                <div class="mb-3 col-4">
+                    <label class="form-label" for="price">Price per night:</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="price-label">$</span>
+                        <input
+                            type="number"
+                            class="form-control"
+                            name="campground[price]"
+                            id="price"
+                            placeholder="Price..."
+                            value="<%= campground.price %>"
+                            aria-label="price"
+                            aria-describedby="price-label"
+                            required
+                        />
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description:</label>
+                <textarea
+                    class="form-control"
+                    name="campground[description]"
+                    id="description"
+                    placeholder="Description..."
+                    cols="30"
+                    rows="5"
+                    required
+                >
+<%= campground.description %>
+                </textarea>
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Add more images:</label>
+                <input class="form-control" type="file" name="image" id="image" multiple />
+            </div>
+
+            <p>Delete Images:</p>
+            <div class="row row-cols-1 row-cols-md-4 g-4 mb-3">
+                <% campground.images.forEach((image, i) => { %>
+                <div class="col">
+                    <div class="card">
+                        <label for="image-<%= i %>"
+                            ><img class="card-img" src="<%= image.thumbnail %>" alt="An image of the campsite" />
+                            <div class="card-img-overlay text-end pt-1 pe-2">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="deleteImages[]"
+                                    value="<%= image.filename %>"
+                                    id="image-<%= i %>"
+                                />
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+
+            <div class="d-flex justify-content-center mb-3">
+                <button class="btn btn-info">Save Campground</button>
+            </div>
+        </form>
+    </div>
+</div>
